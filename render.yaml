@@ -2,7 +2,7 @@ services:
   # Dịch vụ Web cho ứng dụng Laravel
   - type: web
     name: quan-ly-hoc-vien
-    runtime: php             # SỬA 1: Đổi 'env' thành 'runtime'
+    runtime: php
     plan: free
     buildCommand: |
       composer install --no-dev --optimize-autoloader
@@ -27,13 +27,11 @@ services:
         value: pgsql
       - key: DATABASE_URL
         fromDatabase:
-          name: quan_ly_hoc_vien # Giữ nguyên tên này, nó khớp với database bên dưới
-          property: connectionString # SỬA 2: Đổi 'internalDatabaseUrl' thành 'connectionString'
+          name: quan-ly-hoc-vien # Tên này phải khớp với database bên dưới
+          property: connectionString
 
 databases:
   # Dịch vụ Database
-  - name: quan_ly_hoc_vien
-    runtime: postgres # SỬA 3: Thêm runtime cho database
+  - name: quan-ly-hoc-vien
     plan: free
-    # Các thuộc tính databaseName và user không cần thiết khi dùng Blueprint,
-    # Render sẽ tự tạo. Nhưng để đó cũng không sao.
+    # XÓA DÒNG `runtime: postgres` Ở ĐÂY
