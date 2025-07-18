@@ -1,15 +1,17 @@
 services:
+  # Dịch vụ Web cho ứng dụng Laravel
   - type: web
     name: quan-ly-hoc-vien
-    env: php
+    runtime: php             # SỬA 1: Đổi 'env' thành 'runtime'
     plan: free
     buildCommand: |
       composer install --no-dev --optimize-autoloader
+      npm install && npm run build
       php artisan config:cache
       php artisan route:cache
       php artisan view:cache
       php artisan storage:link
-    startCommand: php artisan serve --host 0.0.0.0 --port $PORT
+    startCommand: php artisan serve --host 0.0.0.0 --port 10000
     envVars:
       - key: APP_URL
         sync: false
@@ -25,11 +27,13 @@ services:
         value: pgsql
       - key: DATABASE_URL
         fromDatabase:
-          name: quan_ly_hoc_vien # Tên database bạn đã tạo trên Render
-          property: internalDatabaseUrl
+          name: quan_ly_hoc_vien # Giữ nguyên tên này, nó khớp với database bên dưới
+          property: connectionString # SỬA 2: Đổi 'internalDatabaseUrl' thành 'connectionString'
 
 databases:
-  - name: quan_ly_hoc_user
+  # Dịch vụ Database
+  - name: quan_ly_hoc_vien
+    runtime: postgres # SỬA 3: Thêm runtime cho database
     plan: free
-    databaseName: quan_ly_hoc_vien # Tên database cụ thể
-    user: quan_ly_hoc_user # Username
+    # Các thuộc tính databaseName và user không cần thiết khi dùng Blueprint,
+    # Render sẽ tự tạo. Nhưng để đó cũng không sao.
