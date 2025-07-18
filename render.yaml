@@ -2,7 +2,7 @@ services:
   # Dịch vụ Web cho ứng dụng Laravel
   - type: web
     name: quan-ly-hoc-vien
-    runtime: php
+    runtime: php  # Render đã hỗ trợ runtime 'php' trực tiếp
     plan: free
     buildCommand: |
       composer install --no-dev --optimize-autoloader
@@ -34,4 +34,4 @@ databases:
   # Dịch vụ Database
   - name: quan-ly-hoc-vien
     plan: free
-    # XÓA DÒNG `runtime: postgres` Ở ĐÂY
+    # Đã xóa dòng `runtime: postgres` không hợp lệ
